@@ -80,6 +80,12 @@
             const usernameInput = document.getElementById('new-username').value;
             const passwordInput = document.getElementById('new-password').value;
 
+            // Validate password length
+            if (passwordInput.length < 8) {
+                alert("Password must be at least 8 characters long.");
+                return;
+            }
+
             // Check if username already exists
             const storedUser = JSON.parse(localStorage.getItem('user'));
             if (storedUser && storedUser.username === usernameInput) {
