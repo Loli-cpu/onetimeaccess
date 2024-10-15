@@ -3,103 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        /* General body styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #282c34;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        
-        /* Container for the login form */
-        .login-container {
-            background-color: #3c4043;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            width: 300px;
-        }
-
-        /* Input field styles */
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 4px;
-        }
-
-        /* Button styles */
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #1db954;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* Button hover effect */
-        button:hover {
-            background-color: #1aa34a;
-        }
-
-        /* Link styles */
-        .link {
-            color: #1db954;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-    </style>
-    <script>
-        // Function to handle user login
-        function login() {
-            const usernameInput = document.getElementById('username').value;
-            const passwordInput = document.getElementById('password').value;
-
-            // Get stored user data
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-
-            if (storedUser && usernameInput === storedUser.username && passwordInput === storedUser.password) {
-                const token = generateToken();
-                localStorage.setItem('accessToken', token); // Store the token
-                alert("Login successful! Your access token: " + token); // Display the token
-                // Redirect to the dashboard or another page
-                // window.location.href = 'dashboard.html'; 
-            } else {
-                alert("Invalid username or password.");
-            }
-        }
-
-        // Function to generate a random token
-        function generateToken() {
-            return Math.random().toString(36).substr(2); // Simple random token generation
-        }
-
-        // Function to toggle password visibility
-        function togglePasswordVisibility(passwordFieldId) {
-            const passwordField = document.getElementById(passwordFieldId);
-            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
-        }
-    </script>
+    <title>My Website</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS file -->
+    <script src="script.js" defer></script> <!-- Link to JavaScript file -->
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login Page</h1>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <label>
-            <input type="checkbox" onclick="togglePasswordVisibility('password')"> Show Password
-        </label>
-        <button onclick="login()">Login</button>
-        <p>Don't have an account? <span class="link" onclick="alert('Account creation is currently not available.');">Create one</span></p>
-    </div>
+    <h1>Welcome to My Website!</h1>
+    <button onclick="showMessage()">Click Me!</button>
+    <p id="message"></p>
 </body>
 </html>
