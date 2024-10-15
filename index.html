@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One-Time Access with Time Limit</title>
     <script>
-        const accessDuration = 1; // Time in minutes
+        const accessDuration = 5; // Time in minutes
 
         function setAccessToken() {
             const now = new Date();
-            const expiryTime = now.getTime() + accessDuration * 60 * 1000;
+            const expiryTime = new Date(now.getTime() + accessDuration * 60 * 1000).toUTCString();
 
-            if (!localStorage.getItem('accessToken')) {
+            if (!getCookie('accessToken')) {
                 const token = Math.random().toString(36).substr(2);
-                localStorage.setItem('accessToken', token);
-                localStorage.setItem('accessExpiry', expiryTime);
+                document.cookie = `accessToken=${token}; expires=${expiryTime}; path=/`;
                 alert("Access granted for " + accessDuration + " minutes.");
             } else {
                 checkAccessExpiry();
@@ -23,15 +22,21 @@
 
         function checkAccessExpiry() {
             const now = new Date().getTime();
-            const expiryTime = localStorage.getItem('accessExpiry');
+            const expiry = new Date(getCookie('accessExpiry')).getTime();
 
-            if (now > expiryTime) {
+            if (now > expiry) {
                 alert("Access expired.");
-                localStorage.clear(); 
+                document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 window.location.href = "expired.html"; 
             } else {
                 alert("You still have access.");
             }
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
         }
 
         window.onload = setAccessToken;
