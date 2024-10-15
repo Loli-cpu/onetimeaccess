@@ -15,6 +15,18 @@
             <span class="toggle-password" onclick="togglePassword()">👁️</span>
         </div>
         <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showCreateAccount()">Create Account</a></p>
+
+        <div id="createAccount" style="display: none;">
+            <h2>Create Account</h2>
+            <input type="text" id="newUsername" placeholder="New Username" required>
+            <div class="password-container">
+                <input type="password" id="newPassword" placeholder="New Password (8 characters min)" required minlength="8">
+                <span class="toggle-password" onclick="toggleNewPassword()">👁️</span>
+            </div>
+            <button onclick="createAccount()">Create Account</button>
+            <button onclick="hideCreateAccount()">Cancel</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
