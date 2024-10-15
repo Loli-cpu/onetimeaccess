@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>One-Time Access Login</title>
     <style>
+        /* General body styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #282c34;
@@ -15,12 +16,17 @@
             height: 100vh;
             margin: 0;
         }
+        
+        /* Container for the login form */
         .login-container {
             background-color: #3c4043;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
         }
+
+        /* Input field styles */
         input {
             width: 100%;
             padding: 10px;
@@ -28,6 +34,8 @@
             border: none;
             border-radius: 4px;
         }
+
+        /* Button styles */
         button {
             width: 100%;
             padding: 10px;
@@ -37,9 +45,13 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+        /* Button hover effect */
         button:hover {
             background-color: #1aa34a;
         }
+
+        /* Link styles */
         .link {
             color: #1db954;
             cursor: pointer;
@@ -47,6 +59,7 @@
         }
     </style>
     <script>
+        // Function to handle user login
         function login() {
             const usernameInput = document.getElementById('username').value;
             const passwordInput = document.getElementById('password').value;
@@ -55,7 +68,6 @@
             const storedUser = JSON.parse(localStorage.getItem('user'));
 
             if (storedUser && usernameInput === storedUser.username && passwordInput === storedUser.password) {
-                // Store a token in localStorage (simulating an authentication token)
                 localStorage.setItem('authToken', 'authenticated');
                 window.location.href = 'dashboard.html'; // Redirect to the dashboard
             } else {
@@ -63,6 +75,7 @@
             }
         }
 
+        // Function to handle account creation
         function createAccount() {
             const usernameInput = document.getElementById('new-username').value;
             const passwordInput = document.getElementById('new-password').value;
@@ -85,16 +98,19 @@
             document.getElementById('new-password').value = '';
         }
 
+        // Function to toggle password visibility
         function togglePasswordVisibility(passwordFieldId) {
             const passwordField = document.getElementById(passwordFieldId);
             passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
         }
 
+        // Function to switch to the create account form
         function switchToCreateAccount() {
             document.getElementById('login-form').style.display = 'none';
             document.getElementById('create-account-form').style.display = 'block';
         }
 
+        // Function to switch back to the login form
         function switchToLogin() {
             document.getElementById('create-account-form').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
@@ -104,7 +120,8 @@
 <body>
     <div class="login-container">
         <h1>Login Page</h1>
-        
+
+        <!-- Login Form -->
         <div id="login-form">
             <input type="text" id="username" placeholder="Username" required>
             <input type="password" id="password" placeholder="Password" required>
@@ -115,6 +132,7 @@
             <p>Don't have an account? <span class="link" onclick="switchToCreateAccount()">Create one</span></p>
         </div>
 
+        <!-- Create Account Form -->
         <div id="create-account-form" style="display: none;">
             <h2>Create Account</h2>
             <input type="text" id="new-username" placeholder="Username" required>
@@ -122,7 +140,7 @@
             <label>
                 <input type="checkbox" onclick="togglePasswordVisibility('new-password')"> Show Password
             </label>
-            <button onclick="createAccount()">Create Account</button> <!-- Create Account Button -->
+            <button onclick="createAccount()">Create Account</button>
             <p>Already have an account? <span class="link" onclick="switchToLogin()">Log in</span></p>
         </div>
     </div>
