@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One-Time Access Login</title>
+    <title>Login Page</title>
     <style>
         /* General body styles */
         body {
@@ -68,40 +68,19 @@
             const storedUser = JSON.parse(localStorage.getItem('user'));
 
             if (storedUser && usernameInput === storedUser.username && passwordInput === storedUser.password) {
-                localStorage.setItem('authToken', 'authenticated');
-                window.location.href = 'dashboard.html'; // Redirect to the dashboard
+                const token = generateToken();
+                localStorage.setItem('accessToken', token); // Store the token
+                alert("Login successful! Your access token: " + token); // Display the token
+                // Redirect to the dashboard or another page
+                // window.location.href = 'dashboard.html'; 
             } else {
                 alert("Invalid username or password.");
             }
         }
 
-        // Function to handle account creation
-        function createAccount() {
-            const usernameInput = document.getElementById('new-username').value;
-            const passwordInput = document.getElementById('new-password').value;
-
-            // Validate password length
-            if (passwordInput.length < 8) {
-                alert("Password must be at least 8 characters long.");
-                return;
-            }
-
-            // Check if username already exists
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-            if (storedUser && storedUser.username === usernameInput) {
-                alert("Username already exists. Please choose a different one.");
-                return;
-            }
-
-            // Store new user data
-            const newUser = {
-                username: usernameInput,
-                password: passwordInput
-            };
-            localStorage.setItem('user', JSON.stringify(newUser));
-            alert("Account created successfully! You can now log in.");
-            document.getElementById('new-username').value = '';
-            document.getElementById('new-password').value = '';
+        // Function to generate a random token
+        function generateToken() {
+            return Math.random().toString(36).substr(2); // Simple random token generation
         }
 
         // Function to toggle password visibility
@@ -109,46 +88,18 @@
             const passwordField = document.getElementById(passwordFieldId);
             passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
         }
-
-        // Function to switch to the create account form
-        function switchToCreateAccount() {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('create-account-form').style.display = 'block';
-        }
-
-        // Function to switch back to the login form
-        function switchToLogin() {
-            document.getElementById('create-account-form').style.display = 'none';
-            document.getElementById('login-form').style.display = 'block';
-        }
     </script>
 </head>
 <body>
     <div class="login-container">
         <h1>Login Page</h1>
-
-        <!-- Login Form -->
-        <div id="login-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <label>
-                <input type="checkbox" onclick="togglePasswordVisibility('password')"> Show Password
-            </label>
-            <button onclick="login()">Login</button>
-            <p>Don't have an account? <span class="link" onclick="switchToCreateAccount()">Create one</span></p>
-        </div>
-
-        <!-- Create Account Form -->
-        <div id="create-account-form" style="display: none;">
-            <h2>Create Account</h2>
-            <input type="text" id="new-username" placeholder="Username" required>
-            <input type="password" id="new-password" placeholder="Password" required>
-            <label>
-                <input type="checkbox" onclick="togglePasswordVisibility('new-password')"> Show Password
-            </label>
-            <button onclick="createAccount()">Create Account</button>
-            <p>Already have an account? <span class="link" onclick="switchToLogin()">Log in</span></p>
-        </div>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <label>
+            <input type="checkbox" onclick="togglePasswordVisibility('password')"> Show Password
+        </label>
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <span class="link" onclick="alert('Account creation is currently not available.');">Create one</span></p>
     </div>
 </body>
 </html>
