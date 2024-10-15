@@ -40,17 +40,21 @@
         button:hover {
             background-color: #1aa34a;
         }
+        .link {
+            color: #1db954;
+            cursor: pointer;
+            text-decoration: underline;
+        }
     </style>
     <script>
         function login() {
             const usernameInput = document.getElementById('username').value;
             const passwordInput = document.getElementById('password').value;
 
-            // Hardcoded credentials
-            const username = "admin";
-            const password = "password123";
+            // Get stored user data
+            const storedUser = JSON.parse(localStorage.getItem('user'));
 
-            if (usernameInput === username && passwordInput === password) {
+            if (storedUser && usernameInput === storedUser.username && passwordInput === storedUser.password) {
                 // Store a token in localStorage (simulating an authentication token)
                 localStorage.setItem('authToken', 'authenticated');
                 window.location.href = 'dashboard.html'; // Redirect to the dashboard
@@ -58,14 +62,58 @@
                 alert("Invalid username or password.");
             }
         }
+
+        function createAccount() {
+            const usernameInput = document.getElementById('new-username').value;
+            const passwordInput = document.getElementById('new-password').value;
+
+            // Check if username already exists
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            if (storedUser && storedUser.username === usernameInput) {
+                alert("Username already exists. Please choose a different one.");
+                return;
+            }
+
+            // Store new user data
+            const newUser = {
+                username: usernameInput,
+                password: passwordInput
+            };
+            localStorage.setItem('user', JSON.stringify(newUser));
+            alert("Account created successfully! You can now log in.");
+            document.getElementById('new-username').value = '';
+            document.getElementById('new-password').value = '';
+        }
+
+        function switchToCreateAccount() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('create-account-form').style.display = 'block';
+        }
+
+        function switchToLogin() {
+            document.getElementById('create-account-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        }
     </script>
 </head>
 <body>
     <div class="login-container">
         <h1>Login Page</h1>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="login()">Login</button>
+        
+        <div id="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <span class="link" onclick="switchToCreateAccount()">Create one</span></p>
+        </div>
+
+        <div id="create-account-form" style="display: none;">
+            <h2>Create Account</h2>
+            <input type="text" id="new-username" placeholder="Username" required>
+            <input type="password" id="new-password" placeholder="Password" required>
+            <button onclick="createAccount()">Create Account</button>
+            <p>Already have an account? <span class="link" onclick="switchToLogin()">Log in</span></p>
+        </div>
     </div>
 </body>
 </html>
