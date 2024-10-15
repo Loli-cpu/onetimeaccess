@@ -3,30 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Create Account</title>
+    <title>Login with Token Authenticator</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        let isCreatingAccount = false; // To toggle between login and create account
+        let generatedToken = ""; // Store generated token
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('authForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent form submission
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                if (password.length < 8) {
+                    alert("Password must be at least 8 characters long.");
+                    return;
+                }
+
+                if (isCreatingAccount) {
+                    createAccount(username, password);
+                } else {
+                    login(username, password);
+                }
+            });
+
+            document.getElementById('tokenForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent form submission
+                const tokenInput = document.getElementById('tokenInput').value;
+
+                if (tokenInput === generatedToken) {
+                    alert("Access granted!");
+                    // Proceed to next step, e.g., redirect to main dashboard
+                } else {
+                    alert("Invalid token, please try again.");
+                }
+            });
+
+            document.getElementById('toggleForm').addEventListener('click', toggleForm);
+        });
+
+        function createAccount(username, password) {
+            if (localStorage.getItem('account_' + username)) {
+                alert("Username already exists. Please choose a different username.");
+            } else {
+                localStorage.setItem('account_' + username, password);
+                alert("Account created successfully! You can now log in.");
+                toggleForm(); // Switch back to login form after account creation
+            }
+        }
+
+        function login(username, password) {
+            const storedPassword = localStorage.getItem('account_' + username);
+
+            if (storedPassword && storedPassword === password) {
+                generateToken(); // Generate the token after successful login
+                document.getElementById('loginSection').style.display = 'none'; // Hide login section
+                document.getElementById('tokenSection').style.display = 'block'; // Show token input section
+            } else {
+                alert("Invalid username or password. Please try again.");
+            }
+        }
+
+        function generateToken() {
+            generatedToken = Math.random().toString(36).substr(2, 6).toUpperCase(); // Generate a 6-character token
+            document.getElementById('generatedToken').innerText = generatedToken;
+            alert("Authenticator token generated: " + generatedToken);
+        }
+
+        function toggleForm() {
+            isCreatingAccount = !isCreatingAccount;
+
+            if (isCreatingAccount) {
+                document.getElementById('formTitle').innerText = "Create Account";
+                document.getElementById('authButton').innerText = "Create Account";
+                document.getElementById('toggleMessage').innerHTML = 'Already have an account? <a href="#" id="toggleForm">Log In</a>';
+            } else {
+                document.getElementById('formTitle').innerText = "Login";
+                document.getElementById('authButton').innerText = "Login";
+                document.getElementById('toggleMessage').innerHTML = 'Don\'t have an account? <a href="#" id="toggleForm">Create Account</a>';
+            }
+
+            // Re-attach the event listener for the new text link after switching
+            document.getElementById('toggleForm').addEventListener('click', toggleForm);
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h1 id="formTitle">Login</h1>
-        <form id="authForm">
-            <label for="username">Username:</label>
-            <input type="text" id="username" required>
+        <!-- Login/Create Account Section -->
+        <div id="loginSection">
+            <h1 id="formTitle">Login</h1>
+            <form id="authForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
 
-            <button type="submit" id="authButton">Login</button>
-        </form>
+                <button type="submit" id="authButton">Login</button>
+            </form>
+            <p id="toggleMessage">Don't have an account? <a href="#" id="toggleForm">Create Account</a></p>
+        </div>
 
-        <p id="toggleMessage">Don't have an account? <a href="#" id="toggleForm">Create Account</a></p>
+        <!-- Token Authenticator Section -->
+        <div id="tokenSection" style="display: none;">
+            <h2>Enter Authentication Token</h2>
+            <p>Your generated token is: <strong id="generatedToken"></strong></p>
+            <form id="tokenForm">
+                <label for="tokenInput">Token:</label>
+                <input type="text" id="tokenInput" required>
 
-        <div id="tokenDisplay" style="display: none;">
-            <h2>Your Access Token</h2>
-            <p id="accessToken"></p>
+                <button type="submit">Submit Token</button>
+            </form>
         </div>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
