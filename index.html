@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Login and Create Account</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Login</h1>
-        <form id="loginForm">
+        <h1 id="formTitle">Login</h1>
+        <form id="authForm">
             <label for="username">Username:</label>
             <input type="text" id="username" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" required>
 
-            <button type="submit">Login</button>
+            <button type="submit" id="authButton">Login</button>
         </form>
+
+        <p id="toggleMessage">Don't have an account? <a href="#" id="toggleForm">Create Account</a></p>
 
         <div id="tokenDisplay" style="display: none;">
             <h2>Your Access Token</h2>
