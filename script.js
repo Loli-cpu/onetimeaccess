@@ -38,7 +38,10 @@ function login() {
         // Generate a simple token for one-time access
         const token = Math.random().toString(36).substr(2);
         localStorage.setItem('accessToken', token);
-        alert("Login successful! Your access token is: " + token);
+
+        // Display the access token
+        document.getElementById('accessToken').innerText = token;
+        document.getElementById('tokenDisplay').style.display = 'block';
     } else {
         alert("Invalid username or password.");
     }
