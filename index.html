@@ -85,6 +85,11 @@
             document.getElementById('new-password').value = '';
         }
 
+        function togglePasswordVisibility(passwordFieldId) {
+            const passwordField = document.getElementById(passwordFieldId);
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        }
+
         function switchToCreateAccount() {
             document.getElementById('login-form').style.display = 'none';
             document.getElementById('create-account-form').style.display = 'block';
@@ -103,6 +108,9 @@
         <div id="login-form">
             <input type="text" id="username" placeholder="Username" required>
             <input type="password" id="password" placeholder="Password" required>
+            <label>
+                <input type="checkbox" onclick="togglePasswordVisibility('password')"> Show Password
+            </label>
             <button onclick="login()">Login</button>
             <p>Don't have an account? <span class="link" onclick="switchToCreateAccount()">Create one</span></p>
         </div>
@@ -111,6 +119,9 @@
             <h2>Create Account</h2>
             <input type="text" id="new-username" placeholder="Username" required>
             <input type="password" id="new-password" placeholder="Password" required>
+            <label>
+                <input type="checkbox" onclick="togglePasswordVisibility('new-password')"> Show Password
+            </label>
             <button onclick="createAccount()">Create Account</button> <!-- Create Account Button -->
             <p>Already have an account? <span class="link" onclick="switchToLogin()">Log in</span></p>
         </div>
