@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-Time Access with Time Limit</title>
+    <script>
+        const accessDuration = 1; // Time in minutes
+
+        function setAccessToken() {
+            const now = new Date();
+            const expiryTime = now.getTime() + accessDuration * 60 * 1000;
+
+            if (!localStorage.getItem('accessToken')) {
+                const token = Math.random().toString(36).substr(2);
+                localStorage.setItem('accessToken', token);
+                localStorage.setItem('accessExpiry', expiryTime);
+                alert("Access granted for " + accessDuration + " minutes.");
+            } else {
+                checkAccessExpiry();
+            }
+        }
+
+        function checkAccessExpiry() {
+            const now = new Date().getTime();
+            const expiryTime = localStorage.getItem('accessExpiry');
+
+            if (now > expiryTime) {
+                alert("Access expired.");
+                localStorage.clear(); 
+                window.location.href = "expired.html"; 
+            } else {
+                alert("You still have access.");
+            }
+        }
+
+        window.onload = setAccessToken;
+    </script>
+</head>
+<body>
+    <h1>Welcome to the One-Time Access Page</h1>
+    <p>This page is accessible only once and for a limited time on this device.</p>
+</body>
+</html>
