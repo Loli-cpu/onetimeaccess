@@ -1,28 +1,27 @@
-let tempAuthCode = ''; // Store the temporary auth code for verification
+function togglePassword() {
+    const passwordField = document.getElementById('password');
+    const toggleIcon = document.querySelector('.toggle-password');
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.textContent = '🙈'; // Change to an eye-off icon
+    } else {
+        passwordField.type = 'password';
+        toggleIcon.textContent = '👁️'; // Change back to eye icon
+    }
+}
 
 function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Here you would normally check username and password against a database
-    if (username === "testuser" && password === "password123") {
-        tempAuthCode = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit code
-        alert(`Your authentication code is: ${tempAuthCode}`); // For demo purposes; replace this with an email/SMS service
-
-        // Show the authenticator section
-        document.getElementById('authenticator').style.display = 'block';
-    } else {
-        document.getElementById('message').innerText = 'Invalid username or password';
+    // Simple validation
+    if (username === "" || password.length < 8) {
+        alert("Please fill in all fields with valid information.");
+        return;
     }
-}
 
-function verifyCode() {
-    const enteredCode = document.getElementById('authCode').value;
-
-    if (enteredCode === tempAuthCode.toString()) {
-        document.getElementById('message').innerText = 'Login successful!';
-        // Proceed to the next step (redirect to a new page, etc.)
-    } else {
-        document.getElementById('message').innerText = 'Invalid authentication code';
-    }
+    // Generate a simple token for one-time access
+    const token = Math.random().toString(36).substr(2);
+    localStorage.setItem('accessToken', token);
+    alert("Login successful! Your access token is: " + token);
 }
