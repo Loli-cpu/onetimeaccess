@@ -3,30 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One-Time Access Login</title>
+    <title>Login Page</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Login</h1>
-        <input type="text" id="username" placeholder="Username" required>
-        <div class="password-container">
-            <input type="password" id="password" placeholder="Password (8 characters min)" required minlength="8">
-            <span class="toggle-password" onclick="togglePassword()">👁️</span>
-        </div>
-        <button onclick="login()">Login</button>
-        <p>Don't have an account? <a href="#" onclick="showCreateAccount()">Create Account</a></p>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
 
-        <div id="createAccount" style="display: none;">
-            <h2>Create Account</h2>
-            <input type="text" id="newUsername" placeholder="New Username" required>
-            <div class="password-container">
-                <input type="password" id="newPassword" placeholder="New Password (8 characters min)" required minlength="8">
-                <span class="toggle-password" onclick="toggleNewPassword()">👁️</span>
-            </div>
-            <button onclick="createAccount()">Create Account</button>
-            <button onclick="hideCreateAccount()">Cancel</button>
-        </div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Login</button>
+        </form>
 
         <div id="tokenDisplay" style="display: none;">
             <h2>Your Access Token</h2>
