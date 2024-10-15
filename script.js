@@ -1,3 +1,1 @@
-function showMessage() {
-    document.getElementById("message").innerText = "Hello, welcome to my website!";
-}
+localStorage.setItem('user', JSON.stringify({username: 'testUser', password: 'testPassword123'}));
